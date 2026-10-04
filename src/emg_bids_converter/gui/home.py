@@ -1,4 +1,4 @@
-"""Main window of the graphical interface"""
+"""Main window of the GUI"""
 
 from importlib.metadata import version
 from tkinter import *
@@ -8,8 +8,7 @@ from ..api import PACKAGE
 
 
 class Home(Tk):
-    """Main window: entry point to create a dataset or add a recording"""
-
+    """Main window"""
     def __init__(self) -> None:
         super().__init__()
         self.title("EMG-BIDS Converter")
@@ -18,14 +17,12 @@ class Home(Tk):
         self._build_header()
 
     def _center_square(self) -> None:
-        """Size the window as a square of half the screen height, centered on the screen"""
         side = int(self.winfo_screenheight() / 2)
         x = int((self.winfo_screenwidth() - side) / 2)
         y = int((self.winfo_screenheight() - side) / 2)
         self.geometry(f"{side}x{side}+{x}+{y}")
 
     def _build_header(self) -> None:
-        """Title, subtitle and copyright line at the top of the window"""
         header = ttk.Frame(self, padding=20)
         header.pack(side=TOP, fill=X)
 
