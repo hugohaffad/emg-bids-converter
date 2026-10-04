@@ -8,13 +8,13 @@ from ..api import PACKAGE
 
 
 class Home(Tk):
-    """Main window"""
     def __init__(self) -> None:
         super().__init__()
         self.title("EMG-BIDS Converter")
         self._center_square()
         self.resizable(False, False)
         self._build_header()
+        self._build_actions()
 
     def _center_square(self) -> None:
         side = int(self.winfo_screenheight() / 2)
@@ -30,3 +30,12 @@ class Home(Tk):
         ttk.Label(header, text="Convert EMG recordings to the BIDS standard").pack(pady=(4, 0))
         ttk.Label(header, text=f"© 2026 Hugo Haffad · MIT License · v{version(PACKAGE)}",
                   font=("TkDefaultFont", 10)).pack(pady=(8, 0))
+
+    def _build_actions(self) -> None:
+        actions = ttk.Frame(self, padding=20)
+        actions.pack(side=TOP, fill=BOTH, expand=True)
+        actions.columnconfigure((0, 1), weight=1, uniform="action")
+        actions.rowconfigure(0, weight=1)
+
+        ttk.Button(actions, text="New dataset").grid(row=0, column=0, sticky=EW, padx=10)
+        ttk.Button(actions, text="Add recording").grid(row=0, column=1, sticky=EW, padx=10)
