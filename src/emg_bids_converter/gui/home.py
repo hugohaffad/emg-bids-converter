@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter import ttk
 
 from ..api import PACKAGE
+from .new_dataset import NewDatasetWindow
 
 
 class Home(Tk):
@@ -37,5 +38,8 @@ class Home(Tk):
         actions.columnconfigure((0, 1), weight=1, uniform="action")
         actions.rowconfigure(0, weight=1)
 
-        ttk.Button(actions, text="New dataset").grid(row=0, column=0, sticky=EW, padx=10)
+        ttk.Button(actions, text="New dataset", command=self._open_new_dataset).grid(row=0, column=0, sticky=EW, padx=10)
         ttk.Button(actions, text="Add recording").grid(row=0, column=1, sticky=EW, padx=10)
+
+    def _open_new_dataset(self) -> None:
+        NewDatasetWindow(self)
