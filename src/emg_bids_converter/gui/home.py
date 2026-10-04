@@ -39,7 +39,7 @@ class Home(Tk):
         actions.rowconfigure(0, weight=1)
 
         ttk.Button(actions, text="New dataset", command=self._open_new_dataset).grid(row=0, column=0, sticky=EW, padx=10)
-        ttk.Button(actions, text="Add recording").grid(row=0, column=1, sticky=EW, padx=10)
+        ttk.Button(actions, text="Open dataset").grid(row=0, column=1, sticky=EW, padx=10)
 
     def _open_new_dataset(self) -> None:
         NewDatasetWindow(self)

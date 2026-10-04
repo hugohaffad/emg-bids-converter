@@ -1,27 +1,16 @@
-"""Window to create an empty BIDS dataset"""
+"""Wizard to create a new BIDS dataset"""
 
-from pathlib import Path
 from tkinter import *
 from tkinter import filedialog, ttk
 
-from ..api import create_dataset
+from .child_window import ChildWindow
 
 
-class NewDatasetWindow(Toplevel):
+class NewDatasetWindow(ChildWindow):
     def __init__(self, parent: Tk) -> None:
-        super().__init__(parent)
-        self.title("New dataset")
-        self._match_parent(parent)
-        self.resizable(False, False)
+        super().__init__(parent, "New dataset")
         self._build_form()
         self._build_footer()
-
-    def _match_parent(self, parent: Tk) -> None:
-        parent.update_idletasks()
-        offset = int(parent.winfo_width() * 0.05)
-        x = parent.winfo_x() + offset
-        y = parent.winfo_y() + offset
-        self.geometry(f"{parent.winfo_width()}x{parent.winfo_height()}+{x}+{y}")
 
     def _build_form(self) -> None:
         form = ttk.Frame(self, padding=20)
@@ -61,7 +50,7 @@ class NewDatasetWindow(Toplevel):
         footer = ttk.Frame(self, padding=20)
         footer.pack(side=BOTTOM, fill=X)
 
-        ttk.Button(footer, text="Create", command=self._create).pack(side=RIGHT, padx=(10, 0))
+        ttk.Button(footer, text="Next", command=self._next).pack(side=RIGHT, padx=(10, 0))
 
         ttk.Style(self).configure("Error.TLabel", foreground="red")
         self.error = ttk.Label(footer, style="Error.TLabel")
@@ -83,19 +72,11 @@ class NewDatasetWindow(Toplevel):
         for index in self.authors_list.curselection():
             self.authors_list.delete(index)
 
-    def _create(self) -> None:
+    def _next(self) -> None:
         name = self.name.get().strip()
         folder = self.folder.get().strip()
         missing = [label for label, value in (("Dataset name", name), ("Dataset folder", folder)) if not value]
         if missing:
             self.error.configure(text=f"Required: {', '.join(missing)}")
             return
-
-        authors = list(self.authors_list.get(0, END)) or None
-        license = self.license.get().strip() or None
-        try:
-            create_dataset(Path(folder), name, authors=authors, license=license)
-        except (OSError, ValueError, TypeError) as error:
-            self.error.configure(text=str(error))
-            return
-        self.destroy()
+        self.error.configure(text="")
