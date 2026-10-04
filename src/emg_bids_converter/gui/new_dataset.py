@@ -36,7 +36,28 @@ class NewDatasetWindow(Toplevel):
         self.folder_entry.grid(row=1, column=1, sticky=EW, pady=(10, 0))
         ttk.Button(form, text="Browse…", command=self._browse_folder).grid(row=1, column=2, padx=(10, 0), pady=(10, 0))
 
+        ttk.Label(form, text="Authors").grid(row=2, column=0, sticky=W, padx=(0, 10), pady=(10, 0))
+        self.author = StringVar()
+        self.author_entry = ttk.Entry(form, textvariable=self.author)
+        self.author_entry.grid(row=2, column=1, sticky=EW, pady=(10, 0))
+        self.author_entry.bind("<Return>", lambda event: self._add_author())
+        ttk.Button(form, text="Add", command=self._add_author).grid(row=2, column=2, sticky=EW, padx=(10, 0), pady=(10, 0))
+
+        self.authors_list = Listbox(form, height=4)
+        self.authors_list.grid(row=3, column=1, sticky=EW, pady=(5, 0))
+        ttk.Button(form, text="Remove", command=self._remove_author).grid(row=3, column=2, sticky=EW+N, padx=(10, 0), pady=(5, 0))
+
     def _browse_folder(self) -> None:
         folder = filedialog.askdirectory(parent=self, title="Choose an empty folder for the dataset")
         if folder:
             self.folder.set(folder)
+
+    def _add_author(self) -> None:
+        author = self.author.get().strip()
+        if author:
+            self.authors_list.insert(END, author)
+            self.author.set("")
+
+    def _remove_author(self) -> None:
+        for index in self.authors_list.curselection():
+            self.authors_list.delete(index)
