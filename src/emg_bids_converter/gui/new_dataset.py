@@ -1,6 +1,7 @@
 """Window to create an empty BIDS dataset"""
 
 from tkinter import *
+from tkinter import ttk
 
 
 class NewDatasetWindow(Toplevel):
@@ -9,6 +10,7 @@ class NewDatasetWindow(Toplevel):
         self.title("New dataset")
         self._match_parent(parent)
         self.resizable(False, False)
+        self._build_form()
 
     def _match_parent(self, parent: Tk) -> None:
         parent.update_idletasks()
@@ -16,3 +18,14 @@ class NewDatasetWindow(Toplevel):
         x = parent.winfo_x() + offset
         y = parent.winfo_y() + offset
         self.geometry(f"{parent.winfo_width()}x{parent.winfo_height()}+{x}+{y}")
+
+    def _build_form(self) -> None:
+        form = ttk.Frame(self, padding=20)
+        form.pack(side=TOP, fill=X)
+        form.columnconfigure(1, weight=1)
+
+        ttk.Label(form, text="Dataset name *").grid(row=0, column=0, sticky=W, padx=(0, 10))
+        self.name = StringVar()
+        self.name_entry = ttk.Entry(form, textvariable=self.name)
+        self.name_entry.grid(row=0, column=1, sticky=EW)
+        self.name_entry.focus_set()
