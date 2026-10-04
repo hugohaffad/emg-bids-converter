@@ -1,7 +1,7 @@
 """Window to create an empty BIDS dataset"""
 
 from tkinter import *
-from tkinter import ttk
+from tkinter import filedialog, ttk
 
 
 class NewDatasetWindow(Toplevel):
@@ -27,5 +27,16 @@ class NewDatasetWindow(Toplevel):
         ttk.Label(form, text="Dataset name *").grid(row=0, column=0, sticky=W, padx=(0, 10))
         self.name = StringVar()
         self.name_entry = ttk.Entry(form, textvariable=self.name)
-        self.name_entry.grid(row=0, column=1, sticky=EW)
+        self.name_entry.grid(row=0, column=1, columnspan=2, sticky=EW)
         self.name_entry.focus_set()
+
+        ttk.Label(form, text="Dataset folder *").grid(row=1, column=0, sticky=W, padx=(0, 10), pady=(10, 0))
+        self.folder = StringVar()
+        self.folder_entry = ttk.Entry(form, textvariable=self.folder)
+        self.folder_entry.grid(row=1, column=1, sticky=EW, pady=(10, 0))
+        ttk.Button(form, text="Browse…", command=self._browse_folder).grid(row=1, column=2, padx=(10, 0), pady=(10, 0))
+
+    def _browse_folder(self) -> None:
+        folder = filedialog.askdirectory(parent=self, title="Choose an empty folder for the dataset")
+        if folder:
+            self.folder.set(folder)
