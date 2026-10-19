@@ -13,6 +13,14 @@ from ..models.emg.sidecars import Sidecar
 _SENSOR_NAME_PATTERN = re.compile(r"^HD(\d+)MM\d+$")
 
 
+def _high_pass_cutoff(high_pass_filter: str, sampling_frequency: float) -> float:
+    """Return the high-pass cutoff in Hz described by an OTB4 HighPassFilter string."""
+    if high_pass_filter.startswith("Active (Fsamp/") and high_pass_filter.endswith(")"):
+        divisor = float(high_pass_filter[len("Active (Fsamp/"):-1])
+        return round(sampling_frequency / divisor, 1)
+    raise ValueError(f"unsupported HighPassFilter {high_pass_filter!r}")
+
+
 @dataclass(frozen=True)
 class Track:
     """Class implementing one track from an OTB4 file's Tracks_000.xml index."""
@@ -109,7 +117,7 @@ def read(path, task_name: str, emg_reference: str, powerline_frequency: float = 
         blocks, channels = [], []
         first = emg_tracks[0]
         high_cutoff = round(float(first.low_pass_filter.split()[0]), 1)
-        low_cutoff = round(first.sampling_frequency / 190, 1)
+        low_cutoff = _high_pass_cutoff(first.high_pass_filter, first.sampling_frequency)
 
         for track in emg_tracks:
             raw_data = np.frombuffer(tar.extractfile(track.stream_path).read(), dtype=np.int32)
