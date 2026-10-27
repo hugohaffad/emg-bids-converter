@@ -10,6 +10,7 @@ authors:
   - given-names: Hugo
     family-names: Haffad
     email: hugo.haffad@utoulouse.fr
+    orcid: "https://orcid.org/0009-0004-9370-3609"
     affiliation: "Univ Toulouse, Inserm, ToNIC, Toulouse, France"
 version: 0.1.0
 license: MIT
