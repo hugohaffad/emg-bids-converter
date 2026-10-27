@@ -5,7 +5,7 @@ description = "Open-source Python package for converting EMG recordings from pro
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-authors = [{ name = "Hugo Haffad" }]
+authors = [{ name = "Hugo Haffad", email = "hugo.haffad@utoulouse.fr" }]
 requires-python = ">=3.12"
 dependencies = [
     "bidsschematools[expressions]>=1.2.7",
@@ -14,6 +14,11 @@ dependencies = [
     "pyedflib>=0.1.42",
     "xmltodict>=1.0.4",
 ]
+
+[project.urls]
+Homepage = "https://github.com/ToNIC-Inserm/emg_bids_converter"
+Repository = "https://github.com/ToNIC-Inserm/emg_bids_converter"
+Issues = "https://github.com/ToNIC-Inserm/emg_bids_converter/issues"
 
 [project.scripts]
 emg-bids = "emg_bids_converter.cli:main"

@@ -21,7 +21,7 @@ formats to the Brain Imaging Data Structure (BIDS) standard, following the EMG-B
 Requires Python 3.12 or later and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/hugohaffad/emg_bids_converter.git
+git clone https://github.com/ToNIC-Inserm/emg_bids_converter.git
 cd emg_bids_converter
 uv sync
 ```
