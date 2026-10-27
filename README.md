@@ -100,6 +100,12 @@ Posella, S., Horschig, J. M., Klotz, T., Gramfort, A., & Delorme, A. (2026). EMG
 Imaging Data Structure for electromyography. *bioRxiv*, 2026.07.21.739911.
 https://doi.org/10.64898/2026.07.21.739911
 
+## Author and citation
+
+EMG-BIDS Converter is developed by Hugo Haffad at the ToNIC laboratory (Univ Toulouse, Inserm, UMR 1214, Toulouse, France) under the supervision of Prof. David Amarantini and Prof. David Gasq.
+
+If you use this software in your research, please cite it: use the *Cite this repository* button on GitHub, or see [CITATION.cff](CITATION.cff).
+
 ## License
 
 [MIT](LICENSE)

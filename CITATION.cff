@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+type: software
+title: "EMG-BIDS Converter"
+abstract: >-
+  Open-source Python package for converting electromyography (EMG) recordings
+  from proprietary formats to the Brain Imaging Data Structure (BIDS) standard,
+  following the EMG-BIDS extension.
+authors:
+  - given-names: Hugo
+    family-names: Haffad
+    email: hugo.haffad@utoulouse.fr
+    affiliation: "Univ Toulouse, Inserm, ToNIC, Toulouse, France"
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/ToNIC-Inserm/emg-bids-converter"
+keywords:
+  - BIDS
+  - electromyography
+  - FAIR data
+  - HDsEMG
+  - Open Science
+  - Python
