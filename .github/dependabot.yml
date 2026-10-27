@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # Keep the actions used by the workflows up to date
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # Keep uv.lock up to date with the dependency ranges of pyproject.toml
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      python-dependencies:
+        patterns: ["*"]
