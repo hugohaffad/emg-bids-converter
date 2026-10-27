@@ -82,3 +82,44 @@ def test_cli_init_then_add_every_otb4_sample(tmp_path):
     # adding the same recording twice is refused, and leaves the dataset as it was
     assert main(["add", str(root), str(samples[0]), "--subject", "01", "--task", "mvc", "--emg-reference", "x"]) == 1
     _bids_validator(root)
+
+
+def test_scan_rename_map_then_add_recordings(tmp_path):
+    """A folder in an arbitrary layout -> scan with a pattern -> renamed labels -> mapping round trip -> valid BIDS"""
+    from emg_bids_converter.api import add_recordings, create_dataset
+    from emg_bids_converter.batch.mapping import read_mapping, write_mapping
+    from emg_bids_converter.batch.plan import build_plan
+    from emg_bids_converter.batch.scan import scan
+
+    samples = _otb4_samples()
+    if not samples:
+        pytest.skip("no OTB4 sample (set EMG_BIDS_OTB4 or put a file in data/)")
+    source = tmp_path / "source"
+    for i, sample in enumerate(samples, start=1):
+        folder = source / f"Patient {i}" / "day 1"
+        folder.mkdir(parents=True)
+        (folder / f"MVC max-{i}.otb4").symlink_to(sample.resolve())
+    (source / "notes.otb4").write_bytes(b"")  # matches no pattern
+
+    files, unmatched = scan(source, ["{subject}/**/{task}-{run}.otb4"])
+    assert unmatched == [source / "notes.otb4"]
+    assert [file.values for file in files] == [
+        {"subject": f"Patient {i}", "task": "MVC max", "run": str(i)} for i in range(1, len(samples) + 1)
+    ]
+
+    labels = {"subject": {f"Patient {i}": f"{i:02d}" for i in range(1, len(samples) + 1)},
+              "task": {"MVC max": "mvc"}}
+    plan = build_plan(files, labels)
+    write_mapping(plan, tmp_path / "mapping.tsv")
+    assert build_plan(read_mapping(tmp_path / "mapping.tsv")) == plan
+
+    root = tmp_path / "ds"
+    create_dataset(root, "Batch end-to-end test")
+    calls = []
+    add_recordings(root, plan, "Not specified (end-to-end test)", progress=lambda i, n, item: calls.append(i))
+    assert calls == list(range(len(samples)))
+    assert (root / "sub-01/emg/sub-01_task-mvc_run-1_emg.bdf").is_file()
+    # a second conversion of the same plan is refused before anything is written
+    with pytest.raises(FileExistsError):
+        add_recordings(root, plan, "x")
+    _bids_validator(root)
