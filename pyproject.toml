@@ -16,9 +16,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ToNIC-Inserm/emg-bids-converter"
-Repository = "https://github.com/ToNIC-Inserm/emg-bids-converter"
-Issues = "https://github.com/ToNIC-Inserm/emg-bids-converter/issues"
+Homepage = "https://github.com/hugohaffad/emg-bids-converter"
+Repository = "https://github.com/hugohaffad/emg-bids-converter"
+Issues = "https://github.com/hugohaffad/emg-bids-converter/issues"
 
 [project.scripts]
 emg-bids = "emg_bids_converter.cli:main"
