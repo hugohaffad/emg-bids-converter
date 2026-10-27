@@ -11,7 +11,7 @@ from .writers.dataset import add_recording, init_dataset
 from .writers.emg.naming import build_directory, build_filename
 
 PACKAGE = "emg-bids-converter"
-CODE_URL = "https://github.com/ToNIC-Inserm/emg_bids_converter"
+CODE_URL = "https://github.com/ToNIC-Inserm/emg-bids-converter"
 
 
 def create_dataset(root: Path, name: str, authors: list[str] | None = None,
